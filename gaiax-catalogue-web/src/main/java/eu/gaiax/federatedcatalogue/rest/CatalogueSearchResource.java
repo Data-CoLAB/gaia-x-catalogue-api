@@ -36,6 +36,22 @@ public class CatalogueSearchResource {
         return serviceOfferService.getDefault(pageable);
     }
 
+    public record Tag(String value, long count){}
+
+    @GetMapping(value = "/tags", produces = APPLICATION_JSON_VALUE)
+    public List<Tag> getTags() {
+        return List.of(
+                new Tag("JavaScript", 38),
+                new Tag("React", 30),
+                new Tag("Nodejs", 28),
+                new Tag("Express", 25),
+                new Tag("HTML5", 33),
+                new Tag("MongoDB", 18),
+                new Tag("'CSS3'", 20)
+        );
+    }
+
+
     @GetMapping(value = "/selector", produces = APPLICATION_JSON_VALUE)
     public List<Map<String, Object>> getAllNodes() {
         return catalogueSearchService.getNodeLabelsAndRelationships();
