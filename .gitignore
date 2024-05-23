@@ -41,3 +41,6 @@ app.env
 ### Profiles config ###
 */src/main/resources/application-*.yml
 .docker
+
+### Project ###
+gaiax-catalogue-web/src/main/resources/application.yml
