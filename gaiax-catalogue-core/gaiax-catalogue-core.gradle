@@ -1,0 +1,20 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    api(project(":gaiax-catalogue-dao"))
+    api(project(":gaiax-catalogue-api"))
+    api 'org.springframework.boot:spring-boot-starter-webflux'
+    api "org.json:json:${orgJsonVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter-freemarker:3.1.2'
+    implementation 'org.freemarker:freemarker:2.3.32'
+    implementation 'org.apache.jena:jena-arq:4.10.0'
+    implementation 'org.apache.jena:jena-shacl:4.10.0'
+    implementation 'org.apache.jena:jena-core:4.10.0'
+}
+
+jar {
+    enabled = true
+    archiveClassifier = ''
+}

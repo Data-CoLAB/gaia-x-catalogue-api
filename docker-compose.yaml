@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./
+      target: development-build-stage
+      dockerfile: Dockerfile
+    container_name: gx-catalogue-api
+    ports:
+      - "8189:8189"
+    restart: 'unless-stopped'
+  db:
+    image: memgraph/memgraph:latest
+    ports:
+      - "7687:7687"
+
+volumes:
+  data:
+    driver: local

@@ -1,0 +1,91 @@
+server:
+  port: 8189
+
+gaiax:
+  name:
+  description:
+  version:
+  security:
+    corsOrigins:
+  postgres:
+    host:
+    port: ${gaiax.postgres.port}
+    username: ${gaia-x.postgres.username}
+    password: ${gaia-x.postgres.password}
+    database: ${gaia-x.postgres.database}
+    schema: ${gaia-x.postgres.schema}
+  neo4j:
+    host:
+    port: ${gaia-x.neo4j.port}
+    username:
+    password:
+  did:
+    enforceHttps:
+  host:
+    ces: ${gaia-x.host.ces}
+    llm: ${gaia-x.host.llm}
+  cron:
+    ces: "* */5 * * * ?"
+
+#Add message path for i18n support
+messages:
+  bundle:
+    path: classpath:i18n/messages
+
+spring:
+  liquibase:
+    defaultSchema: ${gaiax.postgres.schema}
+    change-log: classpath:/db/changelog/changelog-master.xml
+  jpa:
+    properties:
+      hibernate:
+        default_schema: ${gaiax.postgres.schema}
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+  datasource:
+    url: jdbc:postgresql://${gaiax.postgres.host}:${gaiax.postgres.port}/${gaia-x.postgres.database}?currentSchema=${gaiax.postgres.schema}
+    username: ${gaia-x.postgres.username}
+    password: ${gaia-x.postgres.password}
+    driverClassName: org.postgresql.Driver
+  neo4j:
+    uri: bolt://${gaiax.neo4j.host}:${gaiax.neo4j.port}
+    authentication:
+      username: ${gaiax.neo4j.username}
+      password: ${gaiax.neo4j.password}
+
+springdoc:
+  swagger-ui:
+    oauth:
+      clientId: gaia-x-public-client
+    disable-swagger-default-url: true
+    path: /ui/swagger-ui
+    show-common-extensions: true
+    csrf:
+      enabled: true
+  api-docs:
+    path: /docs/api-docs
+
+management:
+  health:
+    neo4j:
+      enabled: true
+    db:
+      enabled: true
+    diskspace:
+      enabled: false
+    livenessstate:
+      enabled: true
+    ping:
+      enabled: false
+    readinessstate:
+      enabled: true
+    probes:
+      enabled: true
+  endpoint:
+    health:
+      showDetails: ALWAYS
+
+logging:
+  level:
+    root: INFO
+    org.springframework.data.neo4j.cypher: ERROR

@@ -1,0 +1,14 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    api(project(":gaiax-catalogue-api"))
+    api(project(":gaiax-catalogue-core"))
+    api "org.json:json:${orgJsonVersion}"
+}
+
+jar {
+    enabled = true
+    archiveClassifier = ''
+}

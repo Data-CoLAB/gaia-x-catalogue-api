@@ -1,0 +1,119 @@
+server:
+  port: 8189
+  servlet:
+    context-path: ${APP_PATH:/}
+
+gaiax:
+  name:
+  description:
+  version:
+  security:
+    noAuth: true
+    corsOrigins:
+    realm: noop
+    clientId: noop
+    auth-server-url: http://localhost
+    authUrl: ${gaiax.security.auth-server-url}/realms/${gaiax.security.realm}/protocol/openid-connect/auth
+    tokenUrl: ${gaiax.security.auth-server-url}/realms/${gaiax.security.realm}/protocol/openid-connect/token
+    refreshTokenUrl: ${gaiax.security.token-url}
+  postgres:
+    host:
+    port:
+    username:
+    password:
+    database:
+    schema:
+  neo4j:
+    host:
+    port:
+    username:
+    password:
+  kafka:
+    host:
+    port:
+    topic:
+    group:
+  did:
+    enforceHttps: false
+  host:
+    wizard:  https://wizard.smart-x.smartsenselabs.com
+    ces: https://ces-main.lab.gaia-x.eu
+  cron:
+    ces: 0/30 * * * * *
+
+#Add message path for i18n support
+messages:
+  bundle:
+    path: classpath:i18n/messages
+
+spring:
+  liquibase:
+    defaultSchema: ${gaiax.postgres.schema}
+    change-log: classpath:/db/changelog/changelog-master.xml
+  jpa:
+    properties:
+      hibernate:
+        default_schema: ${gaiax.postgres.schema}
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+  datasource:
+    url: jdbc:postgresql://${gaiax.postgres.host}:${gaiax.postgres.port}/${gaia-x.postgres.database}?currentSchema=${gaiax.postgres.schema}
+    username: ${gaia-x.postgres.username}
+    password: ${gaia-x.postgres.password}
+    driverClassName: org.postgresql.Driver
+  neo4j:
+    uri: bolt://${gaiax.neo4j.host}:${gaiax.neo4j.port}
+    authentication:
+      username: ${gaiax.neo4j.username}
+      password: ${gaiax.neo4j.password}
+  #Specifying the Authorization Server
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          #Issuer-uri indicates the iss claims from jwt token
+          issuer-uri:  https://auth.smart-x.smartsenselabs.com/realms/gaiax
+          jwk-set-uri:  https://auth.smart-x.smartsenselabs.com/realms/gaiax/protocol/openid-connect/certs
+  kafka:
+    consumer:
+      bootstrap-servers: ${gaiax.kafka.host}:${gaiax.kafka.port}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+springdoc:
+  swagger-ui:
+    oauth:
+      clientId: gaia-x-public-client
+    disable-swagger-default-url: true
+    path: /ui/swagger-ui
+    show-common-extensions: true
+    csrf:
+      enabled: true
+  api-docs:
+    path: /docs/api-docs
+
+management:
+  health:
+    neo4j:
+      enabled: true
+    db:
+      enabled: true
+    diskspace:
+      enabled: false
+    livenessstate:
+      enabled: true
+    ping:
+      enabled: false
+    readinessstate:
+      enabled: true
+    probes:
+      enabled: true
+  endpoint:
+    health:
+      showDetails: ALWAYS
+
+logging:
+  level:
+    root: INFO
+    org.springframework.data.neo4j.cypher: ERROR

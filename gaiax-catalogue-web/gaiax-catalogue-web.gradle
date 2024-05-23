@@ -1,0 +1,16 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    implementation 'org.liquibase:liquibase-core'
+    testImplementation 'org.testng:testng:7.1.0'
+    runtimeOnly 'org.postgresql:postgresql'
+    implementation(project(":gaiax-catalogue-ces"))
+    implementation(project(":gaiax-catalogue-llm"))
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+}
+
+bootJar {
+    enabled = true
+}
